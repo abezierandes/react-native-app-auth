@@ -666,15 +666,16 @@ public class RNAppAuthModule extends ReactContextBaseJavaModule implements Activ
                 authRequestBuilder.setLoginHint(additionalParametersMap.get("login_hint"));
                 additionalParametersMap.remove("login_hint");
             }
-            if (additionalParametersMap.containsKey("prompt")) {
-                authRequestBuilder.setPrompt(additionalParametersMap.get("prompt"));
-                additionalParametersMap.remove("prompt");
-            }
+            // if (additionalParametersMap.containsKey("prompt")) {
+            //     authRequestBuilder.setPrompt(additionalParametersMap.get("prompt"));
+            //     additionalParametersMap.remove("prompt");
+            // }
             if (additionalParametersMap.containsKey("state")) {
                 authRequestBuilder.setState(additionalParametersMap.get("state"));
                 additionalParametersMap.remove("state");
             }
 
+            additionalParametersMap.setPrompt(AuthorizationRequest.Prompt.LOGIN);
             authRequestBuilder.setAdditionalParameters(additionalParametersMap);
         }
 
