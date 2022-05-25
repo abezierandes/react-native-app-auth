@@ -675,7 +675,7 @@ public class RNAppAuthModule extends ReactContextBaseJavaModule implements Activ
                 additionalParametersMap.remove("state");
             }
 
-            additionalParametersMap.setPrompt(AuthorizationRequest.Prompt.LOGIN);
+            authRequestBuilder.setPrompt(AuthorizationRequest.Prompt.LOGIN);
             authRequestBuilder.setAdditionalParameters(additionalParametersMap);
         }
 
