@@ -453,22 +453,21 @@ RCT_REMAP_METHOD(logout,
     }];
 
     UIViewController *presentingViewController = appDelegate.window.rootViewController.view.window ? appDelegate.window.rootViewController : appDelegate.window.rootViewController.presentedViewController;
-
-    OIDExternalUserAgentIOSSafariViewController *externalUserAgent = [[OIDExternalUserAgentIOSSafariViewController alloc] initWithPresentingViewController:appDelegate.window.rootViewController];
-    _currentSession = [OIDAuthorizationService presentEndSessionRequest: endSessionRequest
-                                                      externalUserAgent: externalUserAgent
-                                             callback: ^(OIDEndSessionResponse *_Nullable response, NSError *_Nullable error) {
-                                                          typeof(self) strongSelf = weakSelf;
-                                                          strongSelf->_currentSession = nil;
-                                                          [UIApplication.sharedApplication endBackgroundTask:rnAppAuthTaskId];
-                                                          rnAppAuthTaskId = UIBackgroundTaskInvalid;
-                                                          if (response) {
-                                                              resolve([self formatEndSessionResponse:response]);
-                                                          } else {
-                                                            reject([self getErrorCode: error defaultCode:@"end_session_failed"],
-                                                                   [self getErrorMessage: error], error);
-                                                          }
-                                                        }];
+    OIDExternalUserAgentIOSSafariViewController *externalUserAgent = [[OIDExternalUserAgentIOSSafariViewController alloc] initWithPresentingViewController:presentingViewController];
+    _currentSession = [OIDAuthState presentEndSessionRequest:endSessionRequest
+                                            externalUserAgent:externalUserAgent
+                                            callback: ^(OIDEndSessionResponse *_Nullable response, NSError *_Nullable error) {
+                                                typeof(self) strongSelf = weakSelf;
+                                                strongSelf->_currentSession = nil;
+                                                [UIApplication.sharedApplication endBackgroundTask:rnAppAuthTaskId];
+                                                rnAppAuthTaskId = UIBackgroundTaskInvalid;
+                                                if (response) {
+                                                    resolve([self formatEndSessionResponse:response]);
+                                                } else {
+                                                  reject([self getErrorCode: error defaultCode:@"end_session_failed"],
+                                                          [self getErrorMessage: error], error);
+                                                }
+                                            }]; // end [OIDAuthState authStateByPresentingEndSessionRequest:request
 }
 
 - (void)configureUrlSession: (NSDictionary*) headers sessionTimeout: (double) sessionTimeout{
