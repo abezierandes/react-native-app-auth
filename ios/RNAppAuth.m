@@ -454,7 +454,7 @@ RCT_REMAP_METHOD(logout,
 
     UIViewController *presentingViewController = appDelegate.window.rootViewController.view.window ? appDelegate.window.rootViewController : appDelegate.window.rootViewController.presentedViewController;
     OIDExternalUserAgentIOSSafariViewController *externalUserAgent = [[OIDExternalUserAgentIOSSafariViewController alloc] initWithPresentingViewController:presentingViewController];
-    _currentSession = [OIDAuthState presentEndSessionRequest:endSessionRequest
+    _currentSession = [OIDAuthorizationService presentEndSessionRequest:endSessionRequest
                                             externalUserAgent:externalUserAgent
                                             callback: ^(OIDEndSessionResponse *_Nullable response, NSError *_Nullable error) {
                                                 typeof(self) strongSelf = weakSelf;
